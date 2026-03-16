@@ -22,17 +22,17 @@ void show_task(void *pvParameters)
    {	
 		int i=0;
 		static int LowVoltage_1=0, LowVoltage_2=0;
-		vTaskDelayUntil(&lastWakeTime, F2T(RATE_10_HZ));//This task runs at 10Hz //此任务以10Hz的频率运行
+		vTaskDelayUntil(&lastWakeTime, F2T(RATE_1_HZ));//This task runs at 10Hz //此任务以10Hz的频率运行
 		
 		//开机时蜂鸣器短暂蜂鸣，开机提醒
 		//The buzzer will beep briefly when the machine is switched on
-		if(Time_count<50)Buzzer=1; 
-		else if(Time_count>=51 && Time_count<100)Buzzer=0;
+//		if(Time_count<50)Buzzer=1; 
+//		else if(Time_count>=51 && Time_count<100)Buzzer=0;
 		 
 		if(LowVoltage_1==1 || LowVoltage_2==1)Buzzer_count=0;
-		if(Buzzer_count<5)Buzzer_count++;
-		if(Buzzer_count<5)Buzzer=1; //The buzzer is buzzing //蜂鸣器蜂鸣
-		else if(Buzzer_count==5)Buzzer=0;
+//		if(Buzzer_count<5)Buzzer_count++;
+//		if(Buzzer_count<5)Buzzer=1; //The buzzer is buzzing //蜂鸣器蜂鸣
+//		else if(Buzzer_count==5)Buzzer=0;
 		
 		//Read the battery voltage //读取电池电压
 		for(i=0;i<10;i++)
@@ -42,13 +42,13 @@ void show_task(void *pvParameters)
 		Voltage=Voltage_All/10;
 		Voltage_All=0;
 		
-		if(LowVoltage_1==1)LowVoltage_1++; //Make sure the buzzer only rings for 0.5 seconds //确保蜂鸣器只响0.5秒
-		if(LowVoltage_2==1)LowVoltage_2++; //Make sure the buzzer only rings for 0.5 seconds //确保蜂鸣器只响0.5秒
+//		if(LowVoltage_1==1)LowVoltage_1++; //Make sure the buzzer only rings for 0.5 seconds //确保蜂鸣器只响0.5秒
+//		if(LowVoltage_2==1)LowVoltage_2++; //Make sure the buzzer only rings for 0.5 seconds //确保蜂鸣器只响0.5秒
 		if(Voltage>=12.6f)Voltage=12.6f;
 		else if(10<=Voltage && Voltage<10.5f && LowVoltage_1<2)LowVoltage_1++; //10.5V, first buzzer when low battery //10.5V，低电量时蜂鸣器第一次报警
 		else if(Voltage<10 && LowVoltage_1<2)LowVoltage_2++; //10V, when the car is not allowed to control, the buzzer will alarm the second time //10V，小车禁止控制时蜂鸣器第二次报警
 					
-		APP_Show();	 //Send data to the APP //向APP发送数据
+		//APP_Show();	 //Send data to the APP //向APP发送数据
 	  oled_show(); //Tasks are displayed on the screen //显示屏显示任务
    }
 }  

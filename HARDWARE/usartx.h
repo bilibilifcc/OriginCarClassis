@@ -10,7 +10,7 @@
 
 #define FRAME_HEADER      0X7B //Frame_header //帧头
 #define FRAME_TAIL        0X7D //Frame_tail   //帧尾
-#define SEND_DATA_SIZE    24
+#define SEND_DATA_SIZE    52
 #define RECEIVE_DATA_SIZE 11
 
 /*****A structure for storing triaxial data of a gyroscope accelerometer*****/
@@ -21,6 +21,22 @@ typedef struct __Mpu6050_Data_
 	short Y_data; //2 bytes //2个字节
 	short Z_data; //2 bytes //2个字节
 }Mpu6050_Data;
+
+typedef struct __N100_Data_ 
+{
+	float acc_X_data; //4 bytes //4个字节
+	float acc_Y_data; //4 4bytes //4个字节
+	float acc_Z_data; //4 bytes //4个字节
+	
+	float gyro_X_data; //4 bytes //4个字节
+	float gyro_Y_data; //4 bytes //4个字节
+	float gyro_Z_data; //4 bytes //4个字节
+	
+	float q_X_data; //4 bytes //4个字节
+	float q_Y_data; //4 bytes //4个字节
+	float q_Z_data; //4 bytes //4个字节
+	float q_W_data;	//4 bytes
+} N100_Data;
 
 /*******The structure of the serial port sending data************/
 /*******串口发送数据的结构体*************************************/
@@ -34,8 +50,9 @@ typedef struct _SEND_DATA_
 		short Y_speed;              //2 bytes //2个字节
 		short Z_speed;              //2 bytes //2个字节
 		short Power_Voltage;        //2 bytes //2个字节
-		Mpu6050_Data Accelerometer; //6 bytes //6个字节
-		Mpu6050_Data Gyroscope;     //6 bytes //6个字节	
+		// Mpu6050_Data Accelerometer; //6 bytes //6个字节
+		// Mpu6050_Data Gyroscope;     //6 bytes //6个字节	
+		N100_Data N100_all;						//4*10=40bytes
 		unsigned char Frame_Tail;   //1 bytes //1个字节
 	}Sensor_Str;
 }SEND_DATA;
@@ -55,6 +72,8 @@ typedef struct _RECEIVE_DATA_
 
 
 void data_task(void *pvParameters);
+void getbyte_task(void *pvParameters);
+
 void data_transition(void);
 void USART1_SEND(void);
 void USART3_SEND(void);
@@ -69,7 +88,10 @@ void uart5_init(u32 bound);
 int USART1_IRQHandler(void);
 int USART2_IRQHandler(void);
 int USART3_IRQHandler(void);
-int UART5_IRQHandler(void);
+void UART5_IRQHandler(void);
+
+void U3_GetOneByte(void);
+void U5_GetOneByte(void);
 
 float Vz_to_Akm_Angle(float Vx, float Vz);
 float XYZ_Target_Speed_transition(u8 High,u8 Low);
@@ -79,6 +101,9 @@ void usart3_send(u8 data);
 void usart5_send(u8 data);
 
 u8 Check_Sum(unsigned char Count_Number,unsigned char Mode);
+
+extern SEND_DATA Send_Data;
+extern RECEIVE_DATA Receive_Data;
 
 
 #endif

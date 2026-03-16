@@ -1,6 +1,7 @@
 #include "MPU6050.h"
 #include "I2C.h"
 #include "usart.h"
+#include "n100.h"
 #define PRINT_ACCEL     (0x01)
 #define PRINT_GYRO      (0x02)
 #define PRINT_QUAT      (0x04)
@@ -56,15 +57,16 @@ void MPU6050_task(void *pvParameters)
 		
 			//Read the gyroscope zero before starting
       //开机前，读取陀螺仪零点			
-		  if(Deviation_Count<CONTROL_DELAY)
-		  {	 
-		  	Deviation_Count++;
-			  memcpy(Deviation_gyro,gyro,sizeof(gyro));		
-				memcpy(Deviation_accel,accel,sizeof(accel));	
-		  }		
+			TTL_Hex2Dec();
+//		  if(Deviation_Count<CONTROL_DELAY)
+//		  {	 
+//		  	Deviation_Count++;
+//			  memcpy(Deviation_gyro,gyro,sizeof(gyro));		
+//				memcpy(Deviation_accel,accel,sizeof(accel));	
+//		  }		
 
-     MPU_Get_Gyroscope(); //得到陀螺仪数据
-     MPU_Get_Accelscope(); //获得加速度计值(原始值)
+//     MPU_Get_Gyroscope(); //得到陀螺仪数据
+//     MPU_Get_Accelscope(); //获得加速度计值(原始值)
     }
 }  
 
