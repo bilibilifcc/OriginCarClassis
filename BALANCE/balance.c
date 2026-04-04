@@ -328,16 +328,19 @@ Output  : Whether control is allowed, 1: not allowed, 0 allowed
 u8 Turn_Off( int voltage)
 {
 	    u8 temp;
-			if(voltage<10|| EN ==0)
+			if(voltage<10 || EN ==0)
 			{	                                                
 				temp=1;      
 				PWMA1=0;PWMA2=0;
 				PWMB1=0;PWMB2=0;		
 				PWMC1=0;PWMC1=0;	
-				PWMD1=0;PWMD2=0;					
+				PWMD1=0;PWMD2=0;
+				Buzzer = 1; // µçÁ¿µÍÊ±·äÃùÆ÷Ïì
       }
-			else
-			temp=0;
+			else {
+				temp=0;
+				Buzzer = 0;
+			}
 			return temp;			
 }
 /**************************************************************************
