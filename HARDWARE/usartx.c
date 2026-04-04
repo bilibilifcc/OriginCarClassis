@@ -800,7 +800,8 @@ void U3_GetOneByte(void)
 							Vz    =XYZ_Target_Speed_transition(Receive_Data.buffer[7],Receive_Data.buffer[8]);
 							if(Car_Mode==Akm_Car)
 							{
-								Move_Z=Vz_to_Akm_Angle(Move_X, Vz);
+								Move_Z=Vz_to_Akm_Angle(Move_X, Vz); // 原先的
+								// Move_Z=Vz;						// 直接将Vz赋值给Move_Z
 							}
 							else
 							{
@@ -956,7 +957,7 @@ float Vz_to_Akm_Angle(float Vx, float Vz)
 	}
 	else
 	{
-		AngleR=0;
+		AngleR=Vz;
 	}
 	
 	return AngleR;
