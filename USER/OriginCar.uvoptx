@@ -221,22 +221,6 @@
         <Bp>
           <Number>4</Number>
           <Type>0</Type>
-          <LineNumber>327</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\BALANCE\balance.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>5</Number>
-          <Type>0</Type>
           <LineNumber>717</LineNumber>
           <EnabledFlag>0</EnabledFlag>
           <Address>0</Address>
@@ -251,7 +235,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>6</Number>
+          <Number>5</Number>
           <Type>0</Type>
           <LineNumber>718</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -267,7 +251,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>7</Number>
+          <Number>6</Number>
           <Type>0</Type>
           <LineNumber>733</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -283,7 +267,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>8</Number>
+          <Number>7</Number>
           <Type>0</Type>
           <LineNumber>735</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -299,7 +283,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>9</Number>
+          <Number>8</Number>
           <Type>0</Type>
           <LineNumber>736</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -315,7 +299,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>10</Number>
+          <Number>9</Number>
           <Type>0</Type>
           <LineNumber>739</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -331,7 +315,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>11</Number>
+          <Number>10</Number>
           <Type>0</Type>
           <LineNumber>741</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -347,7 +331,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>12</Number>
+          <Number>11</Number>
           <Type>0</Type>
           <LineNumber>17</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -363,7 +347,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>13</Number>
+          <Number>12</Number>
           <Type>0</Type>
           <LineNumber>17</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -379,7 +363,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>14</Number>
+          <Number>13</Number>
           <Type>0</Type>
           <LineNumber>721</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -395,7 +379,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>15</Number>
+          <Number>14</Number>
           <Type>0</Type>
           <LineNumber>722</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -411,7 +395,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>16</Number>
+          <Number>15</Number>
           <Type>0</Type>
           <LineNumber>730</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -427,7 +411,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>17</Number>
+          <Number>16</Number>
           <Type>0</Type>
           <LineNumber>737</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -443,7 +427,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>18</Number>
+          <Number>17</Number>
           <Type>0</Type>
           <LineNumber>740</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -459,7 +443,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>19</Number>
+          <Number>18</Number>
           <Type>0</Type>
           <LineNumber>743</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -475,7 +459,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>20</Number>
+          <Number>19</Number>
           <Type>0</Type>
           <LineNumber>745</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -491,7 +475,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>21</Number>
+          <Number>20</Number>
           <Type>0</Type>
           <LineNumber>816</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -507,7 +491,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>22</Number>
+          <Number>21</Number>
           <Type>0</Type>
           <LineNumber>813</LineNumber>
           <EnabledFlag>0</EnabledFlag>
@@ -523,7 +507,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>23</Number>
+          <Number>22</Number>
           <Type>0</Type>
           <LineNumber>817</LineNumber>
           <EnabledFlag>0</EnabledFlag>
