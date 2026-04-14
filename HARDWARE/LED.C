@@ -60,7 +60,7 @@ void led_task(void *pvParameters)
       LED=~LED;              
       //The LED flicker task is very simple, requires low frequency accuracy, and uses the relative delay function	
       //LED闪烁任务非常简单，对频率精度要求低，使用相对延时函数			
-      vTaskDelay(F2T(2)); 
+      vTaskDelay(Led_Count); 
     }
 }  
 

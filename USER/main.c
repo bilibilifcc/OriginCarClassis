@@ -9,12 +9,6 @@
 //Task handle     //任务句柄
 TaskHandle_t StartTask_Handler;
 
-// N100数据互斥锁，用于保证数据完整性
-SemaphoreHandle_t N100DataSem = NULL;
-
-// 上传给RDK的数据互斥锁，用于保证数据完整性
-SemaphoreHandle_t CarDataSem = NULL;
-
 //Task function   //任务函数
 void start_task(void *pvParameters);
 
@@ -22,9 +16,6 @@ void start_task(void *pvParameters);
 int main(void)
 { 
   systemInit(); //Hardware initialization //硬件初始化
-	
-	N100DataSem = xSemaphoreCreateMutex();
-	CarDataSem = xSemaphoreCreateMutex();
 	
 	//Create the start task //创建开始任务
 	xTaskCreate((TaskFunction_t )start_task,            //Task function   //任务函数
@@ -43,13 +34,12 @@ void start_task(void *pvParameters)
 	
     //Create the task //创建任务
    	xTaskCreate(Balance_task,  "Balance_task",  BALANCE_STK_SIZE,  NULL, BALANCE_TASK_PRIO,  NULL);	//Vehicle motion control task //小车运动控制任务
-	  //xTaskCreate(MPU6050_task, "MPU6050_task", MPU6050_STK_SIZE, NULL, MPU6050_TASK_PRIO, NULL);	//IMU data read task //IMU数据读取任务 
+	  xTaskCreate(MPU6050_task, "MPU6050_task", MPU6050_STK_SIZE, NULL, MPU6050_TASK_PRIO, NULL);	//IMU data read task //IMU数据读取任务 
     xTaskCreate(show_task,     "show_task",     SHOW_STK_SIZE,     NULL, SHOW_TASK_PRIO,     NULL); //The OLED display displays tasks //OLED显示屏显示任务
     xTaskCreate(led_task,      "led_task",      LED_STK_SIZE,      NULL, LED_TASK_PRIO,      NULL);	//LED light flashing task //LED灯闪烁任务
     // xTaskCreate(pstwo_task,    "PSTWO_task",    PS2_STK_SIZE,      NULL, PS2_TASK_PRIO,      NULL);	//Read the PS2 controller task //读取PS2手柄任务
     xTaskCreate(data_task,     "DATA_task",     DATA_STK_SIZE,     NULL, DATA_TASK_PRIO,     NULL);	//Usartx3, Usartx1 and CAN send data task //串口3、串口1、CAN发送数据任务
-		xTaskCreate(getbyte_task,     "get_task",     1024,     NULL, DATA_TASK_PRIO,     NULL);
-		
+	
     vTaskDelete(StartTask_Handler); //Delete the start task //删除开始任务
 
     taskEXIT_CRITICAL();            //Exit the critical section//退出临界区

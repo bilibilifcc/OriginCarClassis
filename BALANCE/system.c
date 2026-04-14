@@ -27,7 +27,7 @@ float Move_X, Move_Y, Move_Z;
 
 //PID parameters of Speed control
 //速度控制PID参数
-float Velocity_KP=300,Velocity_KI=300; 
+float Velocity_KP=300,Velocity_KI=1000; 
 
 //Smooth control of intermediate variables, dedicated to omni-directional moving cars
 //平滑控制中间变量，全向移动小车专用
@@ -92,7 +92,7 @@ void systemInit(void)
 //	//Delay function initialization
 //	//延时函数初始化
 	delay_init(168);	
-	delay_ms(2000);
+	
 	//Initialize the hardware interface connected to the LED lamp
 	//初始化与LED灯连接的硬件接口
 	LED_Init();                     
@@ -130,8 +130,8 @@ void systemInit(void)
 	
 	//Serial port 5 initialization, communication baud rate 115200, 
 	//can be used to communicate with ROS terminal
-	//串口5初始化，通信波特率921600，用于和IMU通信
-	uart5_init(921600);
+	//串口5初始化，通信波特率115200，可用于与ROS端通信
+	uart5_init(115200);
 
 	//ADC pin initialization, used to read the battery voltage and potentiometer gear, 
 	//potentiometer gear determines the car after the boot of the car model
@@ -185,7 +185,7 @@ void systemInit(void)
   //MPU6050  is initialized to read the vehicle's three-axis attitude, 
 	//three-axis angular velocity and three-axis acceleration information
   //MPU6050 初始化，用于读取小车三轴姿态、三轴角速度、三轴加速度信息
-  // MPU6050_initialize();        		
+   MPU6050_initialize();        		
 	
 	//Initialize the hardware interface to the PS2 controller
 	//初始化与PS2手柄连接的硬件接口
@@ -193,9 +193,8 @@ void systemInit(void)
 	
 	//PS2 gamepad configuration is initialized and configured in analog mode
   //PS2手柄配置初始化,配置为模拟量模式	
-	PS2_SetInit();		 							
-	
+	PS2_SetInit();	
 	Buzzer=1;
-	delay_ms(500);
+	delay_ms(1000);
 	Buzzer=0;
 }

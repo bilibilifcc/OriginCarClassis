@@ -91,12 +91,6 @@ extern float PS2_LX,PS2_LY,PS2_RX,PS2_RY,PS2_KEY;
 extern int Check, Checking, Checked, CheckCount, CheckPhrase1, CheckPhrase2;
 extern long int ErrorCode; 
 
-// N100数据互斥锁，用于保证数据完整性
-extern SemaphoreHandle_t N100DataSem;
-
-// 上传给RDK的数据互斥锁，用于保证数据完整性
-extern SemaphoreHandle_t CarDataSem;
-
 void systemInit(void);
 
 /***Macros define***/ /***宏定义***/

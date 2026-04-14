@@ -79,17 +79,17 @@ void Drive_Motor(float Vx,float Vy,float Vz)
 			// For Ackerman small car, Vz represents the front wheel steering Angle
 			//对于阿克曼小车Vz代表右前轮转向角度
 			AngleR=Vz;
+			AngleR=target_limit_float(AngleR,-0.49f,0.49f);
 			R=Axle_spacing/tan(AngleR)-0.5f*Wheel_spacing;
-			
-			// Front wheel steering Angle limit (front wheel steering Angle controlled by steering engine), unit: rad
-			//前轮转向角度限幅(舵机控制前轮转向角度)，单位：rad
-			AngleR=target_limit_float(AngleR,-0.50f,0.50f);
-			
-			//Inverse kinematics //运动学逆解
+//			
+//			// Front wheel steering Angle limit (front wheel steering Angle controlled by steering engine), unit: rad
+//			//前轮转向角度限幅(舵机控制前轮转向角度)，单位：rad
+//			
+//			//Inverse kinematics //运动学逆解
 			if(AngleR!=0)
 			{
 				MOTOR_A.Target = Vx*(R-0.5f*Wheel_spacing)/R;
-				MOTOR_B.Target = Vx*(R+0.5f*Wheel_spacing)/R;			
+				MOTOR_B.Target = Vx*(R+0.5f*Wheel_spacing)/R;	
 			}
 			else 
 			{
@@ -98,8 +98,8 @@ void Drive_Motor(float Vx,float Vy,float Vz)
 			}
 			// The PWM value of the servo controls the steering Angle of the front wheel
 			//舵机PWM值，舵机控制前轮转向角度
-			Angle_Servo    =  -0.628f*pow(AngleR, 3) + 1.269f*pow(AngleR, 2) - 1.772f*AngleR + 1.573f;
-			Servo=SERVO_INIT + (Angle_Servo - 1.572f)*Ratio;
+			// Angle_Servo    =  -0.628f*pow(AngleR, 3) + 1.269f*pow(AngleR, 2) - 1.772f*AngleR + 1.573f;
+			Servo=SERVO_INIT + Vz * 159.0;
 
 			
 			//Wheel (motor) target speed limit //车轮(电机)目标速度限幅
@@ -177,67 +177,63 @@ void Balance_task(void *pvParameters)
 			
 			//Time count is no longer needed after 30 seconds
 			//时间计数，30秒后不再需要
-			//if(Time_count<3000)Time_count++;
+			if(Time_count<3000)Time_count++;
 			
 			//Get the encoder data, that is, the real time wheel speed, 
 			//and convert to transposition international units
 			//获取编码器数据，即车轮实时速度，并转换位国际单位
-			if(xSemaphoreTake(CarDataSem, portMAX_DELAY) == pdPASS)
+			Get_Velocity_Form_Encoder();   
+			
+			if(Check==0) //If self-check mode is not enabled //如果没有启动自检模式
 			{
-				Get_Velocity_Form_Encoder();   
-				
-				if(Check==0) //If self-check mode is not enabled //如果没有启动自检模式
-				{
-	//				command_lost_count++; //串口、CAN控制命令丢失时间计数，丢失1秒后停止控制
-	//				if(command_lost_count>RATE_100_HZ && APP_ON_Flag==0 && Remote_ON_Flag==0 && PS2_ON_Flag==0) //不是APP、PS2、航模遥控模式，就是CAN、串口1、串口3控制模式
-	//					Move_X=0, Move_Y=0, Move_Z=0;
+//				command_lost_count++; //串口、CAN控制命令丢失时间计数，丢失1秒后停止控制
+//				if(command_lost_count>RATE_100_HZ && APP_ON_Flag==0 && Remote_ON_Flag==0 && PS2_ON_Flag==0) //不是APP、PS2、航模遥控模式，就是CAN、串口1、串口3控制模式
+//					Move_X=0, Move_Y=0, Move_Z=0;
 
-					if      (APP_ON_Flag)      Get_RC();         //Handle the APP remote commands //处理APP遥控命令
-					else if (Remote_ON_Flag)   Remote_Control(); //Handle model aircraft remote commands //处理航模遥控命令
-					else if (PS2_ON_Flag)      PS2_control();    //Handle PS2 controller commands //处理PS2手柄控制命令
-					
-					//CAN, Usart 1, Usart 3, Uart5 control can directly get the three axis target speed, 
-					//without additional processing
-					//CAN、串口1、串口3(ROS)、串口5控制直接得到三轴目标速度，无须额外处理
-					else                      Drive_Motor(Move_X, Move_Y, Move_Z);
-					
-					//Click the user button to update the gyroscope zero
-					//单击用户按键更新陀螺仪零点
-					// Key(); 
-					
-					//If there is no abnormity in the battery voltage, and the enable switch is in the ON position,
-					//and the software failure flag is 0
-					//如果电池电压不存在异常，而且使能开关在ON档位，而且软件失能标志位为0
-					if(Turn_Off(Voltage)==0) 
-					{ 			
-						 //Speed closed-loop control to calculate the PWM value of each motor, 
-						 //PWM represents the actual wheel speed					 
-						 //速度闭环控制计算各电机PWM值，PWM代表车轮实际转速
-						 MOTOR_A.Motor_Pwm=Incremental_PI_A(MOTOR_A.Encoder, MOTOR_A.Target);
-						 MOTOR_B.Motor_Pwm=Incremental_PI_B(MOTOR_B.Encoder, MOTOR_B.Target);
-						 MOTOR_C.Motor_Pwm=Incremental_PI_C(MOTOR_C.Encoder, MOTOR_C.Target);
-						 MOTOR_D.Motor_Pwm=Incremental_PI_D(MOTOR_D.Encoder, MOTOR_D.Target);
-							 
-						 Limit_Pwm(16700);
+				if      (APP_ON_Flag)      Get_RC();         //Handle the APP remote commands //处理APP遥控命令
+				else if (Remote_ON_Flag)   Remote_Control(); //Handle model aircraft remote commands //处理航模遥控命令
+				else if (PS2_ON_Flag)      PS2_control();    //Handle PS2 controller commands //处理PS2手柄控制命令
+				
+				//CAN, Usart 1, Usart 3, Uart5 control can directly get the three axis target speed, 
+				//without additional processing
+				//CAN、串口1、串口3(ROS)、串口5控制直接得到三轴目标速度，无须额外处理
+				else                      Drive_Motor(Move_X, Move_Y, Move_Z);
+				
+				//Click the user button to update the gyroscope zero
+				//单击用户按键更新陀螺仪零点
+				Key(); 
+				
+				//If there is no abnormity in the battery voltage, and the enable switch is in the ON position,
+        //and the software failure flag is 0
+				//如果电池电压不存在异常，而且使能开关在ON档位，而且软件失能标志位为0
+				if(Turn_Off(Voltage)==0) 
+				 { 			
+           //Speed closed-loop control to calculate the PWM value of each motor, 
+					 //PWM represents the actual wheel speed					 
+					 //速度闭环控制计算各电机PWM值，PWM代表车轮实际转速
+					 MOTOR_A.Motor_Pwm=Incremental_PI_A(MOTOR_A.Encoder, MOTOR_A.Target);
+					 MOTOR_B.Motor_Pwm=Incremental_PI_B(MOTOR_B.Encoder, MOTOR_B.Target);
+					 MOTOR_C.Motor_Pwm=Incremental_PI_C(MOTOR_C.Encoder, MOTOR_C.Target);
+					 MOTOR_D.Motor_Pwm=Incremental_PI_D(MOTOR_D.Encoder, MOTOR_D.Target);
 						 
-						 //Set different PWM control polarity according to different car models
-						 //根据不同小车型号设置不同的PWM控制极性
-						 switch(Car_Mode)
-						 {
-								case Mec_Car:       Set_Pwm( MOTOR_A.Motor_Pwm, -MOTOR_B.Motor_Pwm, -MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //Mecanum wheel car       //麦克纳姆轮小车
-								case Omni_Car:      Set_Pwm(-MOTOR_A.Motor_Pwm,  MOTOR_B.Motor_Pwm, -MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //Omni car                //全向轮小车
-								case Akm_Car:       Set_Pwm( MOTOR_A.Motor_Pwm,  MOTOR_B.Motor_Pwm,  16799,-16799 ,                   Servo); break; //Ackermann structure car //阿克曼小车
-								case Diff_Car:      Set_Pwm( MOTOR_A.Motor_Pwm,  MOTOR_B.Motor_Pwm,  MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //Differential car        //两轮差速小车
-								case FourWheel_Car: Set_Pwm( MOTOR_A.Motor_Pwm, -MOTOR_B.Motor_Pwm, -MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //FourWheel car           //四驱车 
-								case Tank_Car:      Set_Pwm( MOTOR_A.Motor_Pwm,  MOTOR_B.Motor_Pwm,  MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //Tank Car                //履带车
-						 }
+					 Limit_Pwm(16700);
+					 
+					 //Set different PWM control polarity according to different car models
+					 //根据不同小车型号设置不同的PWM控制极性
+					 switch(Car_Mode)
+					 {
+							case Mec_Car:       Set_Pwm( MOTOR_A.Motor_Pwm, -MOTOR_B.Motor_Pwm, -MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //Mecanum wheel car       //麦克纳姆轮小车
+							case Omni_Car:      Set_Pwm(-MOTOR_A.Motor_Pwm,  MOTOR_B.Motor_Pwm, -MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //Omni car                //全向轮小车
+							case Akm_Car:       Set_Pwm( MOTOR_A.Motor_Pwm,  MOTOR_B.Motor_Pwm,  16799,-16799 ,                   Servo); break; //Ackermann structure car //阿克曼小车
+							case Diff_Car:      Set_Pwm( MOTOR_A.Motor_Pwm,  MOTOR_B.Motor_Pwm,  MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //Differential car        //两轮差速小车
+							case FourWheel_Car: Set_Pwm( MOTOR_A.Motor_Pwm, -MOTOR_B.Motor_Pwm, -MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //FourWheel car           //四驱车 
+							case Tank_Car:      Set_Pwm( MOTOR_A.Motor_Pwm,  MOTOR_B.Motor_Pwm,  MOTOR_C.Motor_Pwm, MOTOR_D.Motor_Pwm, 0    ); break; //Tank Car                //履带车
 					 }
-					 //If Turn_Off(Voltage) returns to 1, the car is not allowed to move, and the PWM value is set to 0
-					 //如果Turn_Off(Voltage)返回值为1，不允许控制小车进行运动，PWM值设置为0
-					 else	Set_Pwm(0,0,16799,-16799,0); 
 				 }
-				xSemaphoreGive(CarDataSem);
-			 }
+				 //If Turn_Off(Voltage) returns to 1, the car is not allowed to move, and the PWM value is set to 0
+				 //如果Turn_Off(Voltage)返回值为1，不允许控制小车进行运动，PWM值设置为0
+				 else	Set_Pwm(0,0,16799,-16799,0); 
+			 }	
 		 }  
 }
 /**************************************************************************
@@ -328,19 +324,17 @@ Output  : Whether control is allowed, 1: not allowed, 0 allowed
 u8 Turn_Off( int voltage)
 {
 	    u8 temp;
-			if(voltage<10 || EN ==0)
+			if(voltage<10||EN==0||Flag_Stop==1)
 			{	                                                
 				temp=1;      
 				PWMA1=0;PWMA2=0;
 				PWMB1=0;PWMB2=0;		
 				PWMC1=0;PWMC1=0;	
-				PWMD1=0;PWMD2=0;
-				Buzzer = 1; // 电量低时蜂鸣器响
+				PWMD1=0;PWMD2=0;		
+				Buzzer=1;
       }
-			else {
-				temp=0;
-				Buzzer = 0;
-			}
+			else
+				temp=0;Buzzer=0;
 			return temp;			
 }
 /**************************************************************************

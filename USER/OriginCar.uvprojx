@@ -10,7 +10,6 @@
       <TargetName>FreeRTOS</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pArmCC>5060960::V5.06 update 7 (build 960)::.\v5.06</pArmCC>
       <pCCUsed>5060960::V5.06 update 7 (build 960)::.\v5.06</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
@@ -135,7 +134,7 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4096</DriverSelection>
+            <DriverSelection>4099</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
@@ -354,7 +353,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>1</ClangAsOpt>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -454,21 +453,6 @@
               <FileName>usartx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\usartx.c</FilePath>
-            </File>
-            <File>
-              <FileName>adc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\adc.h</FilePath>
-            </File>
-            <File>
-              <FileName>n100.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\n100.c</FilePath>
-            </File>
-            <File>
-              <FileName>n100.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\n100.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -655,8 +639,9 @@
   <LayerInfo>
     <Layers>
       <Layer>
-        <LayName>OriginCar</LayName>
+        <LayName>WHEELTEC</LayName>
         <LayPrjMark>1</LayPrjMark>
+        <LayTitle>OriginCar</LayTitle>
       </Layer>
     </Layers>
   </LayerInfo>
