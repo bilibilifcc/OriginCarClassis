@@ -793,34 +793,28 @@ float Vz_to_Akm_Angle(float Vx, float Vz)
 	//Ackermann car needs to set minimum turning radius
 	//If the target speed requires a turn radius less than the minimum turn radius,
 	//This will greatly improve the friction force of the car, which will seriously affect the control effect
-	//阿克曼小车需要设置最小转弯半径
-	//如果目标速度要求的转弯半径小于最小转弯半径，
-	//会导致小车运动摩擦力大大提高，严重影响控制效果
 	Min_Turn_Radius=MINI_AKM_MIN_TURN_RADIUS;
 	
 	if(Vz!=0)
 	{
 		//If the target speed requires a turn radius less than the minimum turn radius
-		//如果目标速度要求的转弯半径小于最小转弯半径
-//		if(float_abs(Vx/Vz)<=Min_Turn_Radius)
-//		{
-//			//Reduce the target angular velocity and increase the turning radius to the minimum turning radius in conjunction with the forward speed
-//			//降低目标角速度，配合前进速度，提高转弯半径到最小转弯半径
-//			if(Vz>0)
-//				Vz= float_abs(Vx)/(Min_Turn_Radius);
-//			else	
-//				Vz=-float_abs(Vx)/(Min_Turn_Radius);	
-//		}		
+		if(float_abs(Vx/Vz)<=Min_Turn_Radius)
+		{
+			//Reduce the target angular velocity and increase the turning radius to the minimum turning radius in conjunction with the forward speed
+			
+			if(Vz>0)
+				Vz= float_abs(Vx)/(Min_Turn_Radius);
+			else	
+				Vz=-float_abs(Vx)/(Min_Turn_Radius);	
+		}		
 		R=Vx/Vz;
 		//AngleL=atan(Axle_spacing/(R-0.5*Wheel_spacing));
 		AngleR=atan(Axle_spacing/(R+0.5f*Wheel_spacing));
 	}
 	else
 	{
-		AngleR=0;
+		AngleR=Vz;
 	}
-	
-	AngleR = Vz;
 	
 	return AngleR;
 }
