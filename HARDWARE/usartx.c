@@ -690,10 +690,12 @@ int USART3_IRQHandler(void)
 						//从串口数据求三轴目标速度， 单位m/s
 						Move_X=XYZ_Target_Speed_transition(Receive_Data.buffer[3],Receive_Data.buffer[4]);
 						Move_Y=XYZ_Target_Speed_transition(Receive_Data.buffer[5],Receive_Data.buffer[6]);
-						Vz    =XYZ_Target_Speed_transition(Receive_Data.buffer[7],Receive_Data.buffer[8]);
+						// Vz    =XYZ_Target_Speed_transition(Receive_Data.buffer[7],Receive_Data.buffer[8]);
+						// Servo = (uint16_t)Receive_Data.buffer[7] << 8 | (uint16_t)Receive_Data.buffer[8];
 						if(Car_Mode==Akm_Car)
 						{
-							Move_Z=Vz_to_Akm_Angle(Move_X, Vz);
+							Servo = (uint16_t)Receive_Data.buffer[7] << 8 | (uint16_t)Receive_Data.buffer[8]; // 直接赋值，数值处理交给上位机
+							// Move_Z=Vz_to_Akm_Angle(Move_X, Vz);
 						}
 						else
 						{
